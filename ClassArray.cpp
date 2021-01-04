@@ -6,21 +6,24 @@ using namespace std;
 
 Array::Array()
 {
+    cout << "default constructor" << endl;
     this->size_ = 0;
     this->arr_ = new double[0];
 }
 
 Array::Array(int size)
 {
+    cout << "initializationg consturctor" << endl;
     this->size_ = size;
     this->arr_ = new double[size];
 }
 
-Array::Array(Array &A)
+Array::Array(const Array &A)
 {
+    cout << "Copy constructor" << endl;
     this->size_ = A.size_;
-    this->arr_ = new double[this->size_];
-    for (int i = 0; i < size_; i++)
+    this->arr_ = new double[A.size_];
+    for (int i = 0; i < A.size_; i++)
     {
         this->arr_[i] = A.arr_[i];
     }
@@ -30,7 +33,7 @@ Array& Array::operator++()
 {
     for (int i = 0; i < this->size_; i++)
     {
-        arr_[i]++;
+        ++arr_[i];
     }
     return *this;
 }
@@ -40,12 +43,12 @@ Array Array::operator&(const Array& array2)
     int maxElements = 0;
     int z = 0;
     Array array3(this->size_ + array2.size_);
-    for (size_t i = 0; i < this->size_; i++)
+    for (int i = 0; i < this->size_; i++)
     {
         bool check = 0;
-        for (size_t j = 0; j < array2.size_; j++)
+        for (int j = 0; j < array2.size_; j++)
         {
-            for (size_t k = 0; k < maxElements; k++)
+            for (int k = 0; k < maxElements; k++)
             {
                 if (array3.arr_[k] == this->arr_[i])
                 {
@@ -68,6 +71,21 @@ Array Array::operator&(const Array& array2)
         }
     }
     return array3;
+}
+
+Array & Array::operator=(const Array & Arr)
+{
+    this->size_ = Arr.size_;
+    for (int i = 0; i < Arr.size_; i++)
+    {
+        this->arr_[i] = Arr.arr_[i];
+    }
+    return *this;
+}
+
+double & Array::operator()(int i)
+{
+    return this->arr_[i];
 }
 
 int Array::get_size()
@@ -111,6 +129,7 @@ double Array::get_element(int number)
 
 void Array::output()
 {
+    cout << "Output" << endl;
     for (int i = 0; i < this->size_; i++)
     {
         cout << this->arr_[i] << endl;
@@ -175,13 +194,25 @@ Array & operator+(const Array &A, const Array &B)
             C.arr_[i] = A.arr_[i] + B.arr_[i];
         }
     }
-    else
+    else if(B.size_ > A.size_)
     {
         C.size_ = B.size_;
         for (int i = 0; i < A.size_; i++)
         {
             C.arr_[i] = A.arr_[i] + B.arr_[i];
         }
+    }
+    else if (A.size_ == B.size_)
+    {
+        C.size_ = A.size_;
+        for (int i = 0; i < C.size_; i++)
+        {
+            C.arr_[i] = A.arr_[i] + B.arr_[i];
+        }
+    }
+    for (int i = 0; i < C.size_; i++)
+    {
+        cout << C.arr_[i] << endl;
     }
     return C;
 }
@@ -191,27 +222,30 @@ Array operator-(const Array &A, const Array &B)
     Array C;
     if (A.size_ > B.size_)
     {
-        C.size_ = A.size_;
-        for (int i = 0; i < A.size_; i++)
-        {
-            C.arr_[i] = A.arr_[i];
-        }
         for (int i = 0; i < B.size_; i++)
         {
             C.arr_[i] = A.arr_[i] - B.arr_[i];
         }
     }
-    else
+    else if(A.size_ < B.size_)
     {
         C.size_ = B.size_;
-        for (int i = 0; i < B.size_; i++)
-        {
-            C.arr_[i] = B.arr_[i];
-        }
         for (int i = 0; i < A.size_; i++)
         {
             C.arr_[i] = A.arr_[i] - B.arr_[i];
         }
+    }
+    else if (A.size_ == B.size_)
+    {
+        C.size_ = A.size_;
+        for (int i = 0; i < C.size_; i++)
+        {
+            C.arr_[i] = A.arr_[i] - B.arr_[i];
+        }
+    }
+    for (int i = 0; i < C.size_; i++)
+    {
+        cout << C.arr_[i] << endl;
     }
     return C;
 }

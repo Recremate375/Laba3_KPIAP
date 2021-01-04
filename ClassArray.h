@@ -1,3 +1,4 @@
+#pragma once
 #include<iostream>
 
 class Array
@@ -8,9 +9,11 @@ private:
 public:
     Array();
     Array(int);
-    Array(Array&);
+    Array(const Array&);
     Array& operator ++();
     Array operator &(const Array&);
+    Array& operator=(const Array& Arr);
+    double& operator()(int i);
     int get_size();
     void push_back(double);
     void set_size(int);
